@@ -22,10 +22,6 @@ router.get('/adicionar-servico', authController.isAuthenticated, function(req, r
   res.render('adicionar-servico');
 });
 
-router.get('/adicionar-produtr', authController.isAuthenticated, function(req, res, next) {
-  res.render('adicionar-servico');
-});
-
 router.post('/adicionar-servico', authController.isAuthenticated, function(req, res, next) {
 
   const novoServico = req.body;
@@ -34,6 +30,10 @@ router.post('/adicionar-servico', authController.isAuthenticated, function(req, 
   console.log(novoServico);
 
   res.redirect('/servicos');
+});
+
+router.get('/adicionar-produtor', authController.isAuthenticated, function(req, res, next) {
+  res.render('adicionar-produtor');
 });
 
 router.post('/adicionar-produtor', authController.isAuthenticated, function(req, res, next) {
