@@ -1,0 +1,55 @@
+doctype html
+html(lang="pt-BR")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Adicionar Serviço - EMATER
+    link(rel="stylesheet", href="css/style.css")
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap", rel="stylesheet")
+    link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200")
+  body
+    header.app-header
+      a.icon-button(href="produtor")
+        span.material-symbols-outlined arrow_back
+      img.header-logo(src="assets/logo-emater.svg", alt="Logo EMATER")
+      div(style="width: 40px;")
+    main.container.with-header
+      form.add-service-form(method="POST", action="/adicionar-produtor")
+        .form-group
+          label(for="nome_produtor") Nome do produtor
+          input.form-input(type="text", id="nome_produtor", name="nome_produtor", placeholder="Nome do produtor")
+        
+        .form-group
+          label(for="terreno") Terreno
+          input.form-input(type="text", id="terreno", name="terreno", placeholder="Nome do terreno")
+        
+        .form-group
+          label(for="cidade") Cidade
+          input.form-input(type="text", id="cidade", name="cidade", placeholder="Cidade aonde fica o terreno")
+
+        .form-group
+          label(for="idade") Idade
+          input.form-input(type="text", id="idade", name="idade", placeholder="Idade do produtor")
+
+        .form-actions
+          a.btn.btn-secondary(href="servicos") Cancelar
+          button.btn.btn-primary(type="submit") Salvar
+
+    script.
+      document.addEventListener('click', function (e) {
+        if (e.target.matches('.stepper-btn')) {
+          const action = e.target.dataset.action;
+          const input = e.target.parentElement.querySelector('.stepper-input');
+          const step = parseFloat(input.step) || 1;
+          let value = parseFloat(input.value) || 0;
+          if (action === 'increment') {
+            value += step;
+          } else if (action === 'decrement') {
+            const min = parseFloat(input.min) || 0;
+            if (value > min) { value -= step; }
+          }
+          input.value = (step < 1) ? value.toFixed(2) : value;
+        }
+      });
