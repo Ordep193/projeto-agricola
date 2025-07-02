@@ -50,7 +50,7 @@ router.get('/servicosCoordenador', authController.isAuthenticated, function(req,
   res.render('servicosCoordenador'); 
 });
 
-router.get('/{', authController.isAuthenticated, function (req, res, next) {
+router.get('/produtores/:id', authController.detalhesProdutor, function (req, res, next) {
   res.render('detalhes-produtor')
 })
 

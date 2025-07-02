@@ -36,11 +36,13 @@ listarProdutores = (id) => {
 exports.detalhesProdutor = (req, res) => {
   const id = parseInt(req.params.id);
 
+  console.log("teste: "+id);
+  
   const produtor = produtores.find(p => p.id === id);
 
   if (!produtor) {
     return res.status(404).send('Produtor não encontrado');
   }
 
-  res.render('detalhes-produtor', { produtor });
+  res.render('detalhes-produtor', { produtor: produtor });
 };
