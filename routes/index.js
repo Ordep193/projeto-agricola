@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var authController = require('../controllers/authController'); // Importa o controller
+//import { authController } from "../controllers/authController";
 
 router.get('/', function(req, res, next) {
   res.render('index');

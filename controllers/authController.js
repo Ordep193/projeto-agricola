@@ -1,8 +1,6 @@
 // controllers/authController.js
-
-const {produtores} = require("./ProdutoresTestes.js")
-const {coordenadores}  = require("./coordenadorController.js");
-
+import { produtores } from "./ProdutoresTestes.js";
+import { coordenadores } from "./coordenadorController.js";
 
 exports.login = (req, res) => {
   const { email, senha } = req.body;
