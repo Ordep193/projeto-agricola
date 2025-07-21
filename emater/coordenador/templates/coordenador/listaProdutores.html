@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Define o título específico para esta página -->
+{% block title %}Serviços - EMATER{% endblock %}
+
+<!-- 
+  Preenche o bloco de conteúdo. 
+  O cabeçalho com a seta de voltar virá do 'base.html'.
+-->
+{% block content %}
+    
+    <!-- Tabela para listar os produtores -->
+    <table class="tabela-custom">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Terreno</th>
+                <th>Cidade</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Loop para iterar sobre a lista de produtores passada pela view -->
+        {% for produtor in produtores %}
+        <tr>
+            {% if produtor.coordenador.id == coordenador.id %}
+            <td>{{ produtor.nome }}</td>
+            <td>{{ produtor.terreno }}</td>
+            <td>{{ produtor.cidade }}</td>
+            <td>
+                <!-- Link para a página de detalhes, usando a tag 'url' do Django -->
+            </td>
+            {% else %}
+                <td>Nenhum produtor relacionado a este Coordenador</td>
+            {% endif %}
+        {% empty %}
+            <td colspan="9">Não há registros cadastrados</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Botão de Ação Flutuante (FAB) para adicionar novo produtor -->
+    <a class="fab" href="{% url 'coordenador:adicionarProdutor' %}">
+        <span class="material-symbols-outlined">add</span>
+    </a>
+{% endblock %}

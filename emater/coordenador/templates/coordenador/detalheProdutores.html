@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Define o título específico para esta página -->
+{% block title %}Detalhes do Produtor - EMATER{% endblock %}
+
+<!-- Preenche o bloco de conteúdo definido no base.html -->
+{% block content %}
+    <h1>Detalhes do produtor</h1>
+
+    <!-- Verifica se a variável 'produtor' foi passada pelo Django -->
+    {% if produtor %}
+        <div class="produtor-detalhes">
+            <!-- Usa a sintaxe de template do Django para exibir os dados -->
+            <h2 class="form-title">{{ produtor.nome }}</h2>
+
+            <div class="service-card">
+                <h3>Propriedade</h3>
+                <p>{{ produtor.terreno }}</p>
+            </div>
+
+            <div class="service-card">
+                <h3>Cidade</h3>
+                <p>{{ produtor.cidade }}</p>
+            </div>
+
+            <div class="service-card">
+                <h3>Idade</h3>
+                <p>{{ produtor.idade }} anos</p>
+            </div>
+
+            <!-- Verifica se a lista de talhões não está vazia -->
+            {% if produtor.talhao %}
+            <div class="service-card">
+                <h3>Talhões</h3>
+                <p>Este produtor possui os seguintes talhões:</p>
+                <!-- Itera sobre a lista de talhões para exibi-los -->
+                <p>
+                    {% for talhao in produtor.talhao %}
+                        {{ talhao }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+            {% endif %}
+
+            <div class="form-actions">
+                <!-- Usa a tag 'url' do Django para links dinâmicos -->
+                <a class="btn btn-secondary" href="#">Editar</a>
+                <button class="btn btn-primary" type="button" onclick="excluirProdutor()">Excluir</button>
+            </div>
+        </div>
+
+    {% else %}
+        <p>Nenhum produtor selecionado.</p>
+    {% endif %}
+
+    <!-- Adicione seu script para a função excluirProdutor() aqui ou em um arquivo JS separado -->
+    <script>
+        function excluirProdutor() {
+            // Lógica para exclusão
+            console.log("Função para excluir produtor chamada.");
+            // Ex: if (confirm("Tem certeza que deseja excluir este produtor?")) { ... }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - EMATER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container login-container">
+        <img class="login-logo" src="{% static 'assets/logo-emater.svg' %}" alt="Logo da EMATER Minas Gerais">
+        <h1 class="form-title">Conta</h1>
+
+        <!-- Exibe uma mensagem de erro se ela for passada pela view do Django -->
+        {% if error %}
+            <p style="color: red; text-align: center; margin-bottom: 15px;">{{ error }}</p>
+        {% endif %}
+
+        <!-- Formulário de login -->
+<form method="post" class="login-form">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Login</button>
+</form>
+
+{% if form.errors %}
+  <p style="color:red;">Usuário ou senha incorretos.</p>
+{% endif %}
+    </div>
+</body>
+</html>

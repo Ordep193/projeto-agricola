@@ -1,0 +1,20 @@
+# Usa imagem base do Python
+FROM python:3.10-slim
+
+# Garante que os logs apareçam diretamente no terminal
+ENV PYTHONUNBUFFERED=1
+
+# Define o diretório de trabalho
+WORKDIR /code
+
+# Copia o arquivo de dependências
+COPY requirements.txt /code/
+
+# Instala as dependências
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copia o restante da aplicação
+COPY . /code/
+
+# Exponha a porta usada pelo Django
+EXPOSE 8000
