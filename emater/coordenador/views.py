@@ -75,14 +75,13 @@ def atualiza_produtor(request, id):
     if request.method == "POST":
         form = ProdutorForm(request.POST, instance=produtor)
         if form.is_valid():
-            produtor = form.save(commit=False)
-            messages.success("Produtor salvo!")
-            return redirect('produtor:Lista_Produtores')
+           form.save(commit=False)
+           messages.success("Produtor salvo!")
+           return redirect('produtor:Lista_Produtores')
     else:
         messages.error(request, "Erro ao salvar. Verifique os campos!")
 
     return render(request, 'coordenador/atualiza-produtor.html', {
         'form': form,
-        'produtor': produtor
     })
 

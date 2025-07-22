@@ -4,6 +4,13 @@
 <!-- Define o título específico para esta página -->
 {% block title %}Serviços - EMATER{% endblock %}
 
+
+  {% if messages %}
+  {% for message in messages %}
+      <script>alert("{{ message }}");</script>
+  {% endfor %}
+  {% endif %}
+
 <!-- 
   Preenche o bloco de conteúdo. 
   O cabeçalho com a seta de voltar virá do 'base.html'.
