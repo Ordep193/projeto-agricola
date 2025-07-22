@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseForbidden
 from .forms import ProdutorForm
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 from .models import Coordenador, Produtor
 from sistema.utils import is_coordenador_or_superuser
+from django.contrib import messages
 
 def index(request):
     return render(request,'sistema/welcome.html')
@@ -56,9 +57,32 @@ def criarProdutor(request):
             produtor = form.save(commit=False)
             produtor.coordenador = Coordenador.objects.get(user=request.user)
             produtor.save()
+            messages.success(request, "Produtor cadastrado com sucesso!")
+
             # redirecionar ou mostrar mensagem de sucesso
     else:
         form = ProdutorForm()
         
-    return render(request, 'coordenador/adicionarProdutor.html', {'form': form})
+    return render(request, 'coordenador/listaProdutores.html', {'form': form})
+
+@login_required
+def atualiza_produtor(request, id):
+    produtor = get_object_or_404(Produtor, id=id)
+    
+    if not is_coordenador_or_superuser(request.user):
+        return HttpResponseForbidden("Apenas coordenadores podem acessar esse link.")
+    
+    if request.method == "POST":
+        form = ProdutorForm(request.POST, instance=produtor)
+        if form.is_valid():
+            produtor = form.save(commit=False)
+            messages.success("Produtor salvo!")
+            return redirect('produtor:Lista_Produtores')
+    else:
+        messages.error(request, "Erro ao salvar. Verifique os campos!")
+
+    return render(request, 'coordenador/atualiza-produtor.html', {
+        'form': form,
+        'produtor': produtor
+    })
 
