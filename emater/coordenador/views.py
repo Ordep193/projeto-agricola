@@ -66,7 +66,7 @@ def criarProdutor(request):
     return render(request, 'coordenador/listaProdutores.html', {'form': form})
 
 @login_required
-def atualiza_produtor(request, id):
+def produtor_atualiza(request, id):
     produtor = get_object_or_404(Produtor, id=id)
     
     if not is_coordenador_or_superuser(request.user):
@@ -85,3 +85,14 @@ def atualiza_produtor(request, id):
         'form': form,
     })
 
+@login_required
+def produtor_exclui(request, id):
+    produtor = get_object_or_404(id=id)
+
+    if not is_coordenador_or_superuser(request.user):
+        HttpResponseForbidden("Você não tem autorização para acessar essa página.")
+
+    if request.method == "GET":
+        produtor.delete()
+        messages.success("Produtor excluído!")
+        return redirect('produtor:Lista_Produtores')

@@ -10,7 +10,8 @@ urlpatterns = [
     path('listaProdutor/',views.listaProd,name="Lista_Produtores"),
     # path("detalheProdutor/<int:id>",views.detalheProd,name="Detalhe_Produtor"),
     path("adicionarProdutor/",views.criarProdutor,name="adicionarProdutor"),
-    path('atualiza-produtor/<int:id>',views.atualiza_produtor,name="atualiza_produtor"),
+    path('produtor-atualiza/<int:id>',views.produtor_atualiza,name="produtor_atualiza"),
+    path('produtor-exclui/<int:id>', views.produtor_exclui, name='produtor_exclui')
 
 
 ]
