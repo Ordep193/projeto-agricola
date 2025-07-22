@@ -4,9 +4,10 @@ use nome do DB
     comando nomal do SQL
 
     para copiar os dados:
+        - docker start my-mysql
         na máquina original: 
-            docker exec -i my-mysql mysqldump -u root -p12345678 emater > backup.sql
-            *copia os dados do banco para um arquivo sql
+        docker exec my-mysql mysqldump -uroot -p12345678 emater > backup_emater.sql
+        *copia os dados do banco para um arquivo sql
         na nova máquina:
             docker cp backup.sql my-mysql:/backup.sql
             docker exec -i my-mysql mysql -u root -p12345678 emater < /backup.sql
