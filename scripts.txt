@@ -1,0 +1,4 @@
+mysql -uroot -p acessar o mysql dentro do docker
+
+use nome do DB
+    comando nomal do SQL

@@ -82,10 +82,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'emater',
-        'USER': 'usuario_django',
-        'PASSWORD': 'django#IF',
-        'HOST': 'localhost',
-        'PORT': '3310'
+        'USER': 'root',
+        'PASSWORD': '12345678',
+        'HOST': 'db',
+        'PORT': '3306'
     }
 }
 
