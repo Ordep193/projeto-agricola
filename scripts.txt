@@ -1,4 +1,17 @@
+comando para rodar o projeto:
+    docker-compose up --build
+
 mysql -uroot -p acessar o mysql dentro do docker
 
 use nome do DB
     comando nomal do SQL
+
+    para copiar os dados:
+        - docker start my-mysql
+        na máquina original: 
+        docker exec my-mysql mysqldump -uroot -p12345678 emater > backup_emater.sql
+        *copia os dados do banco para um arquivo sql
+        na nova máquina:
+            docker cp backup.sql my-mysql:/backup.sql
+            docker exec -i my-mysql mysql -u root -p12345678 emater < /backup.sql
+            *pega os dados no arquivo sql e coloca eles no novo banco
