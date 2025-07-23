@@ -1,60 +1,60 @@
 {% extends 'base.html' %}
 {% load static %}
 
-<!-- Define o título da página -->
 {% block title %}Adicionar Produtor - EMATER{% endblock %}
 
-<!-- Bloco de conteúdo principal -->
 {% block content %}
-<h1 class="form-title">Adicionar Novo Produtor</h1>
+<div class="container my-3 px-2">
+  <div class="card border-0 shadow-sm">
+    <div class="card-header bg-success text-white">
+      <h4 class="mb-0 text-center">📋 Adicionar Novo Produtor</h4>
+    </div>
 
-<form method="POST">
-  {% csrf_token %}
+    <div class="card-body">
+      <form method="POST" class="row g-3">
+        {% csrf_token %}
 
-  {% for field in form %}
-    <div class="form-group">
-      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-      {{ field }}
-      {% if field.errors %}
-        <div class="error-text">
-          {% for error in field.errors %}
-            <p class="text-danger">{{ error }}</p>
-          {% endfor %}
+        {% for field in form %}
+          <div class="col-12">
+            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+              <div class="form-text text-danger">
+                {% for error in field.errors %}
+                  <small>{{ error }}</small>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <div class="col-12">
+          <label for="cidade" class="form-label">Cidade</label>
+          <select name="cidade" id="cidade" class="form-select" required>
+            <option value="">Selecione...</option>
+          </select>
         </div>
-      {% endif %}
+
+        {% if form.non_field_errors %}
+          <div class="col-12">
+            <div class="alert alert-danger">
+              {% for error in form.non_field_errors %}
+                <p class="mb-0">{{ error }}</p>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        <div class="col-12 text-center">
+          <button type="submit" class="btn btn-success w-100">✅ Salvar</button>
+        </div>
+          <div class="col-12 text-center">
+          <a href="{% url 'coordenador:Lista_Produtores' %}" class="btn btn-secondary w-100">Voltar</a>
+        </div>
+      </form>
     </div>
-  {% endfor %}
-  <!-- Campos estado e cidade personalizados -->
-  <div class="form-group">
-    <label for="estado">Estado:</label>
-    <select name="estado" id="estado" class="form-control" required>
-      <option value="">Selecione...</option>
-      <!-- Os estados serão preenchidos via JS -->
-    </select>
   </div>
+</div>
 
-  <div class="form-group">
-    <label for="cidade">Cidade:</label>
-    <select name="cidade" id="cidade" class="form-control" required>
-      <option value="">Selecione...</option>
-      <!-- As cidades serão preenchidas conforme o estado -->
-    </select>
-  </div>
-
-  <!-- Erros não relacionados a campos específicos -->
-  {% if form.non_field_errors %}
-    <div class="alert alert-danger">
-      {% for error in form.non_field_errors %}
-        <p>{{ error }}</p>
-      {% endfor %}
-    </div>
-  {% endif %}
-
-  <button type="submit" class="btn btn-primary">Salvar</button>
-</form>
 <script src="{% static 'js/combo_ibge.js' %}"></script>
 {% endblock %}
-
-
-
-

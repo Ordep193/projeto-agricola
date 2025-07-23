@@ -16,8 +16,7 @@ class Coordenador(models.Model):
     telefone = models.CharField(max_length=20, validators=[telefone_validator])
     cpf = models.CharField(unique=True, max_length=20, validators=[cpf_valido])
     cidade = models.CharField(max_length=100)
-    estado = models.CharField(max_length=100)
-    codigo = models.CharField(max_length=300, unique=True)
+    codigo = models.CharField(max_length=200, unique=True)
 
     class Meta: 
         db_table = 'coordenadores'
@@ -33,9 +32,7 @@ class Produtor(models.Model):
     telefone = models.CharField(max_length=20, validators=[telefone_validator])
     cpf = models.CharField(unique=True, max_length=20, validators=[cpf_valido])
     cidade = models.CharField(max_length=100)
-    estado = models.CharField(max_length=20)
-    endereco = models.CharField(max_length=100)
-    caf = models.CharField(max_length=100)
+    caf = models.CharField(unique=True,max_length=100)
     validade_caf = models.DateField()
     coordenador = models.ForeignKey(Coordenador, on_delete=models.CASCADE)
 
@@ -47,3 +44,37 @@ class Produtor(models.Model):
 
     def __str__(self):
         return f"{self.nome} - {self.cpf} - {self.caf}"
+    
+class Terreno(models.Model):
+    nome = models.CharField(max_length=30)
+    cidade = models.CharField(max_length=30)
+    produtor = models.ForeignKey(Produtor, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'terrenos'
+        ordering = ['nome']
+        verbose_name = 'Terreno'
+        verbose_name_plural = 'Terrenos'
+
+    def _str_(self):
+        return f"{self.nome} - {self.cidade}"
+    
+class Talhao(models.Model):
+    terreno = models.ForeignKey(Terreno, on_delete=models.CASCADE)
+    nome = models.CharField(max_length=100)
+    cidade = models.CharField(max_length=30)
+    data_certificacao = models.DateField()
+    numero_plantas = models.IntegerField()
+    data_plantio = models.DateField()
+    variedade = models.CharField(max_length=100)
+    area = models.IntegerField()
+    validade_caf = models.DateField()
+    
+    class Meta:
+        db_table = 'talhoes'
+        ordering = ['nome']
+        verbose_name = 'Talhão'
+        verbose_name_plural = 'Talhões'
+
+    def _str_(self):
+        return f"{self.nome} - {self.cidade}"

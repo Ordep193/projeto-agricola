@@ -45,8 +45,9 @@
 
             <div class="form-actions">
                 <!-- Usa a tag 'url' do Django para links dinâmicos -->
-                <a class="btn btn-secondary" href="{% url 'atualiza:produtor' %}">Editar</a>
-                <button class="btn btn-primary" type="button" onclick="excluirProdutor()">Excluir</button>
+                <a class="btn btn-secondary" href="{% url 'coordenador:produtor_atualiza' produtor.id %}">Editar</a>
+                <a class="btn btn-danger" href="{% url 'coordenador:produtor_exclui' produtor.id %}">Excluir</a>
+                {% comment %} <button class="btn btn-primary" type="button" onclick="excluirProdutor()">Excluir</button> {% endcomment %}
             </div>
         </div>
 
@@ -55,11 +56,11 @@
     {% endif %}
 
     <!-- Adicione seu script para a função excluirProdutor() aqui ou em um arquivo JS separado -->
-    <script>
+    {% comment %} <script>
         function excluirProdutor() {
             // Lógica para exclusão
             console.log("Função para excluir produtor chamada.");
             // Ex: if (confirm("Tem certeza que deseja excluir este produtor?")) { ... }
         }
-    </script>
+    </script> {% endcomment %}
 {% endblock %}

@@ -1,35 +1,39 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - EMATER</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
-    <div class="container login-container">
-        <img class="login-logo" src="{% static 'assets/logo-emater.svg' %}" alt="Logo da EMATER Minas Gerais">
-        <h1 class="form-title">Conta</h1>
 
-        <!-- Exibe uma mensagem de erro se ela for passada pela view do Django -->
-        {% if error %}
-            <p style="color: red; text-align: center; margin-bottom: 15px;">{{ error }}</p>
-        {% endif %}
+{% block title %}LOGIN{% endblock %}
+{% block content %}
 
-        <!-- Formulário de login -->
-<form method="post" class="login-form">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Login</button>
-</form>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <div class="text-center mb-4">
+            <h2 class="form-title mt-3">Conta</h2>
+          </div>
 
-{% if form.errors %}
-  <p style="color:red;">Usuário ou senha incorretos.</p>
-{% endif %}
+          {% if error %}
+            <div class="alert alert-danger text-center" role="alert">
+              {{ error }}
+            </div>
+          {% endif %}
+
+          <form method="post" class="login-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary w-100 mt-3">Login</button>
+          </form>
+
+          {% if form.errors %}
+            <div class="alert alert-warning mt-3" role="alert">
+              Usuário ou senha incorretos.
+            </div>
+          {% endif %}
+        </div>
+      </div>
     </div>
-</body>
-</html>
+  </div>
+</div>
+
+{% endblock %}

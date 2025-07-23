@@ -1,4 +1,8 @@
 {% load static %}
+
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -21,9 +25,8 @@
     <!-- Cabeçalho padrão para todas as páginas -->
     <header class="app-header">
         <a class="icon-button" href="javascript:history.back()">
-            <span class="material-symbols-outlined">Voltar</span>
         </a>
-        <img class="header-logo" src="{% static 'assets/logo-emater.svg' %}" alt="Logo EMATER">
+        <img class="header-logo" src="{% static 'assets/logo-emater.png' %}" alt="Logo EMATER">
         <div style="width: 40px;"></div> <!-- Elemento para manter o alinhamento -->
     </header>
 
@@ -38,21 +41,7 @@
 </body>
 
 <footer class="bottom-nav">
-    <a class="nav-item" href="#">
-        <span class="material-symbols-outlined">shopping_cart</span>
-        <span class="nav-label">Compras</span>
-    </a>
-    <a class="nav-item active" href="#">
-        <span class="material-symbols-outlined">construction</span>
-        <span class="nav-label">Serviços</span>
-    </a>
-    <a class="nav-item" href="#">
-        <span class="material-symbols-outlined">grass</span>
-        <span class="nav-label">Colheita</span>
-    </a>
-    <a class="nav-item" href="#">
-        <span class="material-symbols-outlined">settings</span>
-        <span class="nav-label">Secagem</span>
-    </a>
+
 </footer>
+
 </html>
