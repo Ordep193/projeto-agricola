@@ -35,7 +35,7 @@
                         {% for produtor in produtores %}
                         {% if produtor.coordenador.id == coordenador.id %}
                         <tr>
-                            <td>{{ produtor.nome }}</td>
+                            <td>{{ produtor.user.first_name }}</td>
                             <td>{{ produtor.cidade }}</td>
                             <td class="text-center">
                                 <!-- Exemplo de botão de ação -->

@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sistema',
     'coordenador',
-    'bootstrap5',
+    'bootstrapv5',
     'django_vercel'
 ]
 

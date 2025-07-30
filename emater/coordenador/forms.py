@@ -1,11 +1,16 @@
 from django import forms
-from .models import Produtor, Terreno, Talhao
+from .models import Produtor, Terreno, Talhao, User
 from django.forms import DateInput
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'password', 'confirm_password',dkdj 'email']
 
 class ProdutorForm(forms.ModelForm):
     class Meta:
         model = Produtor
-        exclude = ['coordenador', 'cidade']
+        exclude = ['coordenador', 'cidade', 'user']
         widgets = {
             'validade_caf': DateInput(attrs={'type': 'date'})
         }

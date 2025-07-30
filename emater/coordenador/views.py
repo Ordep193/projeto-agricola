@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseForbidden, HttpResponse
-from .forms import ProdutorForm, TerrenoForm, TalhaoForm
+from .forms import ProdutorForm, TerrenoForm, TalhaoForm, UserForm
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 from .models import Coordenador, Produtor, Terreno, Talhao
@@ -33,7 +33,11 @@ def criarProdutor(request):
 
     if request.method == "POST":
         form = ProdutorForm(request.POST)
-        if form.is_valid():
+        user_form = UserForm(request.POST)
+        if form.is_valid() and user_form.is_valid():            
+            user = user_form.save(commit=False)
+            user.set_password(user.password)
+            user.save()
             produtor = form.save(commit=False)
             produtor.coordenador = Coordenador.objects.get(user=request.user)
             produtor.cidade = request.POST.get('cidade')
@@ -43,8 +47,9 @@ def criarProdutor(request):
             # redirecionar ou mostrar mensagem de sucesso
     else:
         form = ProdutorForm()
+        user_form = UserForm()
         
-    return render(request, 'coordenador/adicionarProdutor.html', {'form': form})
+    return render(request, 'coordenador/adicionarProdutor.html', {'form': form, 'user_form': user_form})
 
 @login_required
 def produtor_atualiza(request, id):
