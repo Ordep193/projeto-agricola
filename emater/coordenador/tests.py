@@ -332,7 +332,8 @@ class GeralTesteCase(TestCase):
             'validade_caf': '2030-01-01',
             'terreno': terreno.id
         }, follow=True)
+        print("Talhão response status:", response.status_code)
+        print("Talhão response content:", response.content.decode())
         self.assertEqual(response.status_code, 200)
-        self.assertFalse(Talhao.objects.filter(nome='Talhão Teste').exists())
+        self.assertTrue(Talhao.objects.filter(nome='Talhão Teste').exists())
         print("Talhão cadastrado com sucesso")
-

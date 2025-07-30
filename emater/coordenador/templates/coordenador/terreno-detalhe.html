@@ -45,8 +45,7 @@
         ✏️ Atualizar Terreno
     </a>
     <a href="{% url 'coordenador:terreno_exclui' terreno.id %}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este terreno?');">🗑️ Excluir Terreno</a>
-        <a href="{% url 'coordenador:produtor_detalhe' terreno.produtor.id %}" class="btn btn-secondary">
-      🔙 Voltar</a>
+    <a href="{% url 'coordenador:produtor_detalhe' terreno.produtor.id %}" class="btn btn-secondary">🔙 Voltar</a>
 </div>
 {% endif %}
     {% endblock %}

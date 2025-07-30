@@ -45,6 +45,12 @@
                     <div class="form-control bg-light">{{ talhao.validade_caf }}</div>
                 </div>
 <div class="d-flex justify-content-between flex-wrap mt-4 gap-2">
+    <a 
+    href="{% url 'coordenador:talhao_exclui' talhao.id %}" 
+    class="btn btn-danger" 
+    onclick="return confirm('Tem certeza que deseja excluir este talhão?');">
+    🗑️ Excluir talhão</a>
+    
     <a href="{% url 'coordenador:talhao_atualiza' talhao.id %}" class="btn btn-success">
         ✏️ Atualizar Talhão
     </a>

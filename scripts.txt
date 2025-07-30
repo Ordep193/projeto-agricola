@@ -2,7 +2,8 @@ olhar os arquivos .env
 comando para rodar o projeto:
     docker-compose up --build
 
-mysql -uroot -p acessar o mysql dentro do docker
+mysql -uroot -p
+    acessar o mysql dentro do docker
 
 use nome do DB
     comando nomal do SQL
