@@ -18,6 +18,14 @@ urlpatterns = [
     path('talhao-detalhe/<int:id>', views.talhao_detalhe, name="talhao_detalhe"),
     path('talhao-atualiza/<int:id>', views.talhao_atualiza, name="talhao_atualiza"),
     path('talhao-exclui/<int:id>', views.talhao_exclui, name="talhao_exclui"),
-    path('teste_excel',views.excelGera,name="teste_excel"),
-    path('api/produtor/<int:id>/', views.api_enviar_produtor, name="api_enviar_produtor"),
+    path('exportar/produtores/', views.exportar_excel_coordenador, name='exportar_excel_coordenador'),
+
+
+    path('api/produtor/<str:email>/', views.api_enviar_produtor, name="api_enviar_produtor"),
+ 
+    path("importar-servicos/", views.importar_servicos_view, name="importar_servicos"),
+
+    path('servicos/', views.visualizar_servicos, name='listar-servicos'),
+    path('servicos/exportar/', views.exportar_servicos_excel, name='exportar-servicos'),
+    path('servicos/produtor/<str:email>/', views.servicos_por_produtor, name='servicos-produtor'),
 ]

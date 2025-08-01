@@ -54,5 +54,6 @@
     <a href="{% url 'coordenador:talhao_atualiza' talhao.id %}" class="btn btn-success">
         ✏️ Atualizar Talhão
     </a>
+    <a href="{% url 'coordenador:terreno_detalhe' talhao.terreno.id %}" class="btn btn-secondary">🔙 Voltar</a>
 </div>
                 {% endblock %}
