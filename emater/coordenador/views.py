@@ -446,7 +446,6 @@ def exportar_excel_coordenador(request):
     wb.save(response)
     return response
 
-
 @api_view(['GET'])
 def api_enviar_produtor(request, email):
     chave = request.headers.get('X-API-Key')

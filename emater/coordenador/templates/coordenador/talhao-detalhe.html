@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Detalhes do Terreno - EMATER{% endblock %}
+{% block title %}Detalhes do Talhão - EMATER{% endblock %}
 
 {% block content %}
 <div class="container my-3 px-2">
     
     <div class="card shadow-sm border-0">
         <div class="card-header bg-success text-white text-center">
-            <h4 class="mb-0">👤 {{ talhao.terreno.nome }}</h4>
+            <h4 class="mb-0">🌱 Talhão: {{ talhao.nome }}</h4>
         </div>
         <div class="card-body">
             <div class="row g-3">
                 <div class="col-12 col-md-6">
-                    <label class="form-label fw-bold">Talhão</label>
-                    <div class="form-control bg-light">{{ talhao.nome }}</div>
+                    <label class="form-label fw-bold">Terreno</label>
+                    <div class="form-control bg-light">{{ talhao.terreno.nome }}</div>
                 </div>
                 <div class="col-12 col-md-6">
                     <label class="form-label fw-bold">Cidade</label>
@@ -44,16 +44,19 @@
                     <label class="form-label fw-bold">Validade da CAF</label>
                     <div class="form-control bg-light">{{ talhao.validade_caf }}</div>
                 </div>
-<div class="d-flex justify-content-between flex-wrap mt-4 gap-2">
-    <a 
-    href="{% url 'coordenador:talhao_exclui' talhao.id %}" 
-    class="btn btn-danger" 
-    onclick="return confirm('Tem certeza que deseja excluir este talhão?');">
-    🗑️ Excluir talhão</a>
-    
-    <a href="{% url 'coordenador:talhao_atualiza' talhao.id %}" class="btn btn-success">
-        ✏️ Atualizar Talhão
-    </a>
-    <a href="{% url 'coordenador:terreno_detalhe' talhao.terreno.id %}" class="btn btn-secondary">🔙 Voltar</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between flex-wrap mt-4 gap-2">
+        <a href="{% url 'coordenador:talhao_exclui' talhao.id %}" class="btn btn-danger" 
+            onclick="return confirm('Tem certeza que deseja excluir este talhão?');">
+            🗑️ Excluir talhão
+        </a>
+        <a href="{% url 'coordenador:talhao_atualiza' talhao.id %}" class="btn btn-success">
+            ✏️ Atualizar Talhão
+        </a>
+        <a href="{% url 'coordenador:terreno_detalhe' talhao.terreno.id %}" class="btn btn-secondary">🔙 Voltar</a>
+    </div>
 </div>
-                {% endblock %}
+{% endblock %}

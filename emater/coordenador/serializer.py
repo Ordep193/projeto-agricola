@@ -14,7 +14,7 @@ class TerrenoSerializer(serializers.ModelSerializer):
         fields = ['id', 'nome', 'talhoes']
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(read_only=True)
 
     class Meta:
         model = User

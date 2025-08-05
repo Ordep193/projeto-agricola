@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Serviços - EMATER{% endblock %}
+{% block title %}Lista de Produtores - EMATER{% endblock %}
 
 {% block content %}
 <div class="container my-3 px-2">
@@ -44,12 +44,12 @@
                                 </tr>
                             {% else %}
                                 <tr>
-                                    <td colspan="4" class="text-muted text-center">Nenhum produtor relacionado a este Coordenador</td>
+                                    <td colspan="3" class="text-muted text-center">Nenhum produtor relacionado a este Coordenador</td>
                                 </tr>
                             {% endif %}
                         {% empty %}
                             <tr>
-                                <td colspan="4" class="text-center text-muted">Não há registros cadastrados</td>
+                                <td colspan="3" class="text-center text-muted">Não há registros cadastrados</td>
                             </tr>
                         {% endfor %}
                     </tbody>
