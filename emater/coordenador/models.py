@@ -48,7 +48,7 @@ class Produtor(models.Model):
 class Terreno(models.Model):
     nome = models.CharField(max_length=30)
     cidade = models.CharField(max_length=30)
-    produtor = models.ForeignKey(Produtor, on_delete=models.CASCADE)
+    produtor = models.ForeignKey(Produtor, on_delete=models.CASCADE, related_name='terrenos')
 
     class Meta:
         db_table = 'terrenos'
@@ -60,7 +60,7 @@ class Terreno(models.Model):
         return f"{self.nome} - {self.cidade}"
     
 class Talhao(models.Model):
-    terreno = models.ForeignKey(Terreno, on_delete=models.CASCADE)
+    terreno = models.ForeignKey(Terreno, on_delete=models.CASCADE, related_name='talhoes')
     nome = models.CharField(max_length=100)
     cidade = models.CharField(max_length=30)
     data_certificacao = models.DateField()

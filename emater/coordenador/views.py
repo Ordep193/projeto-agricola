@@ -362,104 +362,106 @@ def exportar_servicos_excel(request):
 
 @login_required
 def exportar_excel_coordenador(request):
-
-    try:
-        coordenador = Coordenador.objects.get(user=request.user)
-    except Coordenador.DoesNotExist:
-        return HttpResponse("Coordenador não encontrado", status=404)
-
-    # Estilos para cabeçalhos
-    bold_font = Font(bold=True)
-    center_align = Alignment(horizontal="center")
-    border = Border(
-        left=Side(style="thin"), right=Side(style="thin"),
-        top=Side(style="thin"), bottom=Side(style="thin")
-    )
+    # Garante que o usuário é coordenador ou superuser
+    if not hasattr(request.user, 'coordenador') and not request.user.is_superuser:
+        return HttpResponse("Acesso não autorizado", status=403)
+    
+    coordenador = request.user.coordenador
 
     wb = Workbook()
 
-    # --- ABA PRINCIPAL: PRODUTORES ---
+    # ===== ABA PRINCIPAL: PRODUTORES =====
     ws_produtores = wb.active
     ws_produtores.title = "Produtores"
-    headers = ["Nome", "Telefone", "CPF", "Cidade", "CAF", "Validade CAF", "Coordenador"]
-    ws_produtores.append(headers)
+    ws_produtores.append([
+        "Nome", "Telefone", "CPF", "Cidade",
+        "CAF", "Validade CAF", "Coordenador"
+    ])
 
-    for col in ws_produtores.iter_cols(min_row=1, max_row=1):
-        for cell in col:
-            cell.font = bold_font
-            cell.alignment = center_align
-            cell.border = border
+    bold = Font(bold=True)
+    for cell in ws_produtores["1:1"]:
+        cell.font = bold
 
-    produtores = Produtor.objects.filter(coordenador=coordenador).select_related("user", "coordenador")
-
-    for p in produtores:
+    produtores = Produtor.objects.filter(coordenador=coordenador).select_related("coordenador", "user")
+    for produtor in produtores:
         ws_produtores.append([
-            p.user.first_name,
-            p.telefone,
-            p.cpf,
-            p.cidade,
-            p.caf,
-            p.validade_caf.strftime('%d/%m/%Y'),
-            p.coordenador.user.first_name
+            produtor.user.first_name,
+            produtor.telefone,
+            produtor.cpf,
+            produtor.cidade,
+            produtor.caf,
+            produtor.validade_caf.strftime('%d/%m/%Y'),
+            produtor.coordenador.user.first_name
         ])
 
-    # --- ABAS POR TERRENO ---
-    terrenos = Terreno.objects.filter(produtor__coordenador=coordenador).select_related("produtor").prefetch_related("talhao_set")
+    # ===== ABAS PARA TERRENOS DESTE COORDENADOR =====
+    terrenos = Terreno.objects.filter(produtor__coordenador=coordenador)\
+        .select_related('produtor')\
+        .prefetch_related('talhoes')
 
     for terreno in terrenos:
-        nome_aba = f"{terreno.produtor.user.first_name[:10]}_{terreno.nome[:20]}"[:31]
-        ws = wb.create_sheet(title=nome_aba)
+        nome_produtor = terreno.produtor.user.first_name[:10]
+        nome_terreno = terreno.nome[:20]
+        aba_nome = f"{nome_produtor}_{nome_terreno}"[:31]
 
+        ws = wb.create_sheet(title=aba_nome)
         ws.append([f"Terreno: {terreno.nome}"])
         ws.append([
-            "Cidade Terreno", "Produtor", "Talhão", "Cidade Talhão", 
-            "Data Certificação", "Nº Plantas", "Data Plantio", 
+            "Cidade", "Produtor", "Talhão", "Cidade Talhão",
+            "Data Certificação", "Nº Plantas", "Data Plantio",
             "Variedade", "Área", "Validade CAF"
         ])
 
-        for col in ws.iter_cols(min_row=2, max_row=2):
-            for cell in col:
-                cell.font = bold_font
-                cell.alignment = center_align
-                cell.border = border
+        for cell in ws["2:2"]:
+            cell.font = bold
+            cell.alignment = Alignment(horizontal='center')
 
-        talhoes = Talhao.objects.filter(terreno=terreno)
-        for t in talhoes:
+        for talhao in terreno.talhoes.all():
             ws.append([
                 terreno.cidade,
                 terreno.produtor.user.first_name,
-                t.nome,
-                t.cidade,
-                t.data_certificacao.strftime('%d/%m/%Y'),
-                t.numero_plantas,
-                t.data_plantio.strftime('%d/%m/%Y'),
-                t.variedade,
-                t.area,
-                t.validade_caf.strftime('%d/%m/%Y'),
+                talhao.nome,
+                talhao.cidade,
+                talhao.data_certificacao.strftime('%d/%m/%Y'),
+                talhao.numero_plantas,
+                talhao.data_plantio.strftime('%d/%m/%Y'),
+                talhao.variedade,
+                talhao.area,
+                talhao.validade_caf.strftime('%d/%m/%Y')
             ])
 
-    # --- GERAR ARQUIVO ---
+        # Ajustar largura das colunas (opcional)
+        for column_cells in ws.columns:
+            max_length = max(len(str(cell.value)) if cell.value else 0 for cell in column_cells)
+            col_letter = column_cells[0].column_letter
+            ws.column_dimensions[col_letter].width = max(max_length + 2, 12)
+
+    # ===== GERAR ARQUIVO =====
     nome_arquivo = f"relatorio_produtores_{coordenador.user.first_name}.xlsx"
+
     response = HttpResponse(
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
-    response['Content-Disposition'] = f'attachment; filename="{nome_arquivo}"'
+    response['Content-Disposition'] = f'attachment; filename={nome_arquivo}'
     wb.save(response)
     return response
 
+
 @api_view(['GET'])
 def api_enviar_produtor(request, email):
-    #chave = request.headers.get('X-API-Key')
-    #if chave != 'segredo123':
+    chave = request.headers.get('X-API-Key')
+    
+    # if chave != 'segredo123':
     #    return Response({'erro': 'Acesso não autorizado!'}, status=status.HTTP_401_UNAUTHORIZED)
-
-    produtores = Produtor.objects.all()
-    for produtor in produtores:
-        if(produtor.user.email == email):
-            resposta = produtor
-
-    serializer = ProdutorSerializer(resposta)
-    return Response(serializer.data)
+    
+    try:
+        produtor = Produtor.objects.select_related('user') \
+                                .prefetch_related('terrenos__talhoes') \
+                                .get(user__email=email)
+        serializer = ProdutorSerializer(produtor)
+        return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+    except Produtor.DoesNotExist:
+        return JsonResponse({'erro': 'Produtor não encontrado!'}, status=status.HTTP_404_NOT_FOUND)
 
 def importar_servicos_view(request):
     produtor = request.GET.get("produtor")
